@@ -1,0 +1,52 @@
+---
+title: "Advanced Statistical Methods HW1"
+author: "2021-28605 DoHyup Shin"
+date: "`r format(Sys.Date())`"
+output:
+  pdf_document: default
+  html_document: default
+---
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300)
+```
+
+
+
+## Exercise 3.4
+(a) Run the following simulation 200 times:
+	    \begin{itemize}
+	        \item $x_i \overset{i.i.d}{\sim} N(\mu_i, 1)$ for $i = 1, 2, \dots, 500$
+	        \item $\mu_i = 3i/500$
+	        \item $i_{max}$ = index of largest $x_i$
+	        \item $d = x_{i_{max}} - \mu_{i_{max}}$
+	    \end{itemize}
+(b) Plot the histogram of the 200 d values
+(c) What is the relation to Figure 3.4?
+  
+  
+### Solution
+(a)
+```{r, echo=T, eval = T}
+x <- matrix(NA, 200, 500)
+mu <- seq(0.06, 3, 0.06)
+d <- rep(NA, 200)
+idx <- rep(NA, 200)
+
+for(i in 1:200){
+  for(j in 1:500){
+    x[i,j] <- rnorm(1, mu[j], 1)
+  }
+  idx[i] <- which.max(x[i,])
+  d[i] <- x[i, idx[i]] - mu[idx[i]]
+}
+hist(d, breaks = 20)
+```
+
+
+
+
+
