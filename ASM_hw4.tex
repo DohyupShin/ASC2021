@@ -1,0 +1,148 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not alter this block (unless you're familiar with LaTeX
+\documentclass{article}
+\usepackage[left=2cm,right=2cm,top=2.54cm,bottom=2cm,a4paper]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath,amsthm,amssymb,amsfonts, fancyhdr, color, comment, graphicx, environ}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\pagestyle{fancy}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\newtheorem*{exmp}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\newtheorem*{rec}{Recall}
+\newtheorem*{note}{Note}
+\newtheorem*{exer}{Exercise}
+\newtheorem*{fact}{Fact}
+
+
+
+%overset
+\newcommand{\ovs}[2]{\overset{#1}{#2}}
+
+
+\newcommand{\mat}[1]{\vec{#1}}
+\newcommand{\set}[1]{\mathcal{#1}}
+% transpose
+\newcommand{\T}{\mathsf{T}} 
+% inner product 
+\newcommand{\ip}[2]{\left< #1,\, #2 \right>} 
+% absolute value 
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert} 
+% norm 
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert} 
+% bar over text (to replace \bar and \overline)
+\newcommand{\paren}[1]{\left( #1 \right)}
+
+\newcommand{\mybar}[1]{\mkern 1.5mu \overline{\mkern -1.5mu #1 \mkern -1.5mu} \mkern 1.5mu} 
+% hat over text (to replace \hat and \widehat)
+\newcommand{\myhat}[1]{\mkern 1.5mu \widehat{\mkern -1.5mu #1 \mkern -1.5mu} \mkern 1.5mu} 
+% tilde over text (to replace $\tilde and \widetilde)
+\newcommand{\mytilde}[1]{\mkern 1.5mu \widetilde{\mkern -1.5mu #1 \mkern -1.5mu} \mkern 1.5mu}
+
+
+% the set of all natural numbers 
+\newcommand{\N}{\mathbb{N}} 
+% the set of all real numbers 
+\newcommand{\R}{\mathbb{R}} 
+% the set of all real n-dimmensional vectors
+\newcommand{\Rn}{\mathbb{R}^{n}} 
+% the set of all complex numbers 
+\newcommand{\C}{\mathbb{C}} 
+% the set of all complex n-dimmensional vectors
+\newcommand{\Cn}{\mathbb{C}^{n}}
+
+
+
+\newenvironment{problem}[2][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+
+% Define solution environment
+\newenvironment{solution}{\textbf{Solution}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Fill in the appropriate information below
+\lhead{2021-28605}
+\rhead{Dohyup Shin} 
+\chead{\textbf{Advanced Statistical Method HW 4}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+    \begin{problem}{5.6}
+	If $x \sim Mult_L (n, \pi)$, use the Poisson trick (5.44) to appropriate the mean and variance of $x_1/x_2$. (Here we are assumming that $n\pi_2$ is large enough to ignore the possibility $x_2 = 0$.)
+    Hint: In notation (5.41),
+    $$ \frac{S1}{S2} \doteq \frac{\mu_1}{\mu_2}(1 + \frac{S_1 - \mu_1}{\mu_1} - \frac{S_2 - \mu_2}{\mu_2}).$$
+    \begin{align*}
+      S_l \ovs{ind}{\sim} Poi(\mu_l), \quad l = 1,2, \dots, L \quad \quad (5.41)&\\
+      Mult_L(N, \pi) \sim Poi(n\pi)  \quad \quad (5.44)&  
+    \end{align*}
+
+
+
+    \end{problem}
+    
+    \noindent
+    \begin{solution}
+    Let $X = (x_1, x_2, \dots, x_L)\sim Mult_L(n, \mathbf{\pi})$ where $\mathbf{\pi} = (\pi_1, \pi_2, \dots, \pi_L)$ and $N \sim Poi(n)$. Then, by using Poisson trick, we can approximate $X = (x_1, x_2, \dots, x_L) \sim Poi(n\mathbf{\pi})$. In other words, $x_i \ovs{indep}{\sim} Poi(n\pi_i) \; \forall i = 1, 2, \dots, L$. Define $\mu_i = n\pi_i \; \forall i$. We know that $E_{\pi}(x_i) = n\pi_i = \mu_i \text{ and } Var_{\pi} = n\pi_i = \mu_i$. Next,  we use the hint given to the problem. Then, we can calculate the mean and variance of $x_1/x_2$.
+
+    First, the mean of $x_1/x_2$ is
+    \begin{align*}
+            E_{\mathbf{\pi}}(\frac{x_1}{x_2}) & = E_{\mathbf{\pi}} \paren{\frac{\mu_1}{\mu_2}(1 + \frac{x_1 - \mu_1}{\mu_1} - \frac{x_2 - \mu_2}{\mu_2}} \\[6pt]
+            & = \frac{\mu_1}{\mu_2}(1 + E_{\mathbf{\pi}}\paren{\frac{x_1 - \mu_1}{\mu_1}} - E_{\mathbf{\pi}} \paren{\frac{x_2 - \mu_2}{\mu_2}})\\[6pt]
+            & = \frac{\mu_1}{\mu_2}
+    \end{align*}
+
+    Second, the variance of $x_1/x_2$ is
+    \begin{align*}
+        Var_{\mathbf{\pi}}(\frac{x_1}{x_2}) & = Var_{\mathbf{\pi}} \paren{\frac{\mu_1}{\mu_2}(1 + \frac{x_1 - \mu_1}{\mu_1} - \frac{x_2 - \mu_2}{\mu_2}} \\[6pt]
+        & = \frac{\mu_1^2}{\mu_2^2}(\frac{1}{\mu_1^2} Var_{\mathbf{\pi}}(x_1) + \frac{1}{\mu_2^2} Var_{\mathbf{\pi}}(x_2))\\[6pt]
+        & = \frac{\mu_1^2}{\mu_2^2}(\frac{1}{\mu_1} + \frac{1}{\mu_2})\\[6pt]
+        & = \frac{\mu_1(\mu_1 + \mu_2)}{\mu_2^3}
+\end{align*}
+
+    
+    \end{solution}
+    
+  
+    \begin{problem}{5.7}
+    Show explicitly how the binomial density bi(12, 0.3) is an exponential tilt of bi(12, 0.6).
+    \end{problem}
+    
+    \noindent
+    \begin{solution}
+
+    
+    \end{solution}
+
+  
+
+\end{document}
