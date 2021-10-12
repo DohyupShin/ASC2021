@@ -139,16 +139,34 @@
     
     \noindent
     \begin{solution}
-    Let $p, p_0 \in \mathbb{P} = \{p : 0 < p < 1\}$. The pmfs of bi(12, $p$) and bi(12, $p_0$) are $f_p(x) = \binom{12}{x} p^x(1-p)^{12-x}$ and $f_{p_0}(x) = \binom{12}{x} p_0^x(1-p_0)^{12-x}$. Suppose that $p_0$ is given. Then,    
+    Let $p, p_0 \in \mathbb{P} = \{p : 0 < p < 1\}$. The pmfs of bi(n, $p$) and bi(n, $p_0$) are $f_p(x) = \binom{n}{x} p^x(1-p)^{n-x}$ and $f_{p_0}(x) = \binom{n}{x} p_0^x(1-p_0)^{n-x}$. Suppose that $p_0$ is given. Then,    
     \begin{align*}
-        \frac{f_p(x)}{f_{p_0}(x)} & = (\frac{p}{p_0})^x (\frac{1-p}{1-p_0})^{12-x} \Leftrightarrow \\
-        f_p(x) &= (\frac{p}{p_0})^x(\frac{1-p}{1-p_0})^{12-x}f_{p_0}(x) 
+        \frac{f_p(x)}{f_{p_0}(x)} & = (\frac{p}{p_0})^x (\frac{1-p}{1-p_0})^{n-x} \Leftrightarrow \\
+        f_p(x) &= (\frac{p}{p_0})^x(\frac{1-p}{1-p_0})^{n-x}f_{p_0}(x) 
         \Leftrightarrow \\    
-        f_p(x) &= exp\paren{xlog(\frac{p}{p_0}) + (12-x)log(\frac{1-p}{1-p_0})}f_{p_0}(x) \Leftrightarrow \\
-        f_p(x) &= exp\paren{xlog(\frac{p/(1-p)}{p_0/(1-p_0)}) + 12log(\frac{1-p}{1-p_0})}f_{p_0}(x)
+        f_p(x) &= exp\paren{xlog(\frac{p}{p_0}) + (n-x)log(\frac{1-p}{1-p_0})}f_{p_0}(x) \Leftrightarrow \\
+        f_p(x) &= exp\paren{xlog(\frac{p/(1-p)}{p_0/(1-p_0)}) + nlog(\frac{1-p}{1-p_0})}f_{p_0}(x)
     \end{align*}
-    We can reparametrize the parameter p to $\alpha = \frac{p}{1-p}$.
-    Then, $ f_p(x) = exp\paren{xlog(\frac{p/(1-p)}{p_0/(1-p_0)}) + 12log(\frac{1-p}{1-p_0})}f_{p_0}(x) =  exp\paren{xlog(\frac{\alpha}{\alpha_0}) - 12log(\frac{1+\alpha}{1+\alpha_0})}f_{p_0}(x)$
+    Define the $\alpha = log\frac{p/1-p}{p_0/1-p_0}$.
+    Then, $ f_p(x) = exp\paren{xlog(\frac{p/(1-p)}{p_0/(1-p_0)}) + nlog(\frac{1-p}{1-p_0})}f_{p_0}(x) =  exp\paren{\alpha x  - \psi(\alpha)}f_{p_0}(x)$.
+    where $\psi (\alpha) = nlog(\frac{1-p_0}{1-p})$.
+    
+    
+    Let $\tilde f_p(x) = e^{\alpha x} f_{p_0}(x)$.
+    Then, we can express the pmf of bi(n, p) as follows.
+    $f_p (x) = \frac{\tilde f_{p_0}(x)}{e^{\psi (\alpha)}} = e^{\alpha x - \psi (\alpha)} f_{p_0}(x)$.
+    Here, $e^{\psi(\alpha)}$ satisfies the following equation. $e^{\psi(\alpha)} = \sum_{x=0}^{n} \tilde f_p(x) =  \sum_{x=0}^{n} e^{\alpha x} f_{p_0}(x)$. This means $e^{\psi (\alpha)}$ is moment generating function of $f_{p_0}(x)$, i.e , $\psi (\alpha)$  is cumulant generating function of  $f_{p_0}(x)$.
+    Thus, we can find another form of $e^{\psi (\alpha)}$ by binomial theorem.
+    \begin{align*}
+        e^{\psi (\alpha)} & = \sum_{x = 0}^{n}e^{\alpha x}f_{p_0}(x) = \sum_{x = 0}^{n}e^{\alpha x}\binom{n}{x} p_0^x(1-p_0)^{n-x}\\
+        & = \sum_{x = 0}^{n} \binom{n}{x} (p_0e^{\alpha})^x(1-p_0)^{n-x} = (p_0e^{\alpha} + 1-p_0)^n \\
+        \therefore \psi(\alpha) & = nlog(p_0e^{\alpha} + 1-p_0) \quad \text{(The same result as the one above)}
+    \end{align*}
+    By using the above equation, we can show the problem.
+    Substituting $n = 12, p = 0.3, p_0 = 0.6$ into the equation above. 
+    Then, $\alpha = log\frac{0.3/0.7}{0.6/0.4} \simeq -1.2527$ and $\psi (\alpha) = 12log(0.6 e^{\alpha} + 0.4) \simeq -6.7153$.
+
+    Therefore, $ f_p(x) = exp\paren{\alpha x  - \psi(\alpha)}f_{p_0}(x) = e^{-1.2527x + 6.7153}f_{p_0}(x)$.
 
     \end{solution}
 
