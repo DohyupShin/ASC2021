@@ -169,24 +169,42 @@
         Actually, $\hat \sigma = \bar{x} = \frac{1}{9461}\sum_{i = 1}^{9461}x_i  = \frac{1}{9461}(1317\cdot1 + 239\cdot2 + 42 \cdot 3 + 14 \cdot 4 + 4 \cdot 5 + 4 \cdot 6 + 1 \cdot 7) = 0.2143537$
         Then,  $\hat y_x = 9461f_{\hat g}(x)$ where $x = 0, 1, \dots, 7$
         By using R, we can calculate $\forall y_x$.
+        
         In summary, \\
-        fiting value $\hat y_0$ =  7790.976 \\
-        fiting value $\hat y_1$  =  1375.237 \\
-        fiting value $\hat y_2$  =  242.7523 \\
-        fiting value $\hat y_3$  =  42.84982 \\
-        fiting value $\hat y_4$  =  7.563708 \\
-        fiting value $\hat y_5$  =  1.33512 \\
-        fiting value $\hat y_6$  =  0.235671 \\
-        fiting value $\hat y_7$  =  0.04159986 \\
+        \begin{table}[hbt!]
+            \centering
+            \begin{tabular}{|c|c|}
+            \hline
+            {\textbf{$\hat y_x$}} & {\textbf{Fitting value}} \\ \hline
+            $\hat{y_0}$                         & 7790.976                        \\ \hline
+            $\hat{y_1}$                         & 1375.237                        \\ \hline
+            $\hat{y_2}$                         & 242.7523                        \\ \hline
+            $\hat{y_3}$                         & 42.84982                        \\ \hline
+            $\hat{y_4}$                         & 7.563708                        \\ \hline
+            $\hat{y_5}$                         & 1.33512                         \\ \hline
+            $\hat{y_6}$                         & 0.235671                        \\ \hline
+            $\hat{y_7}$                         & 0.04159986                      \\ \hline
+            \end{tabular}
+        \end{table}
         
         \item [(b)] Since  $\hat{E} \{ \theta|x \} = (x+1) \cfrac{f_{\hat g} (x+1)}{f_{\hat g}(x)} = (x+1)\cfrac{\hat \sigma}{1 + \hat{\sigma}}$. So we can calculate the estimates of posterior mean for all $x = 0, 1, \dots, 6$
-        fiting value $\hat{E} \{ \theta|x = 0 \}$ =  0.1765167 \\
-        fiting value $\hat{E} \{ \theta|x = 1 \}$ =  0.3530333 \\
-        fiting value $\hat{E} \{ \theta|x = 2 \}$ =  0.5295500 \\
-        fiting value $\hat{E} \{ \theta|x = 3 \}$ =  0.7060667 \\
-        fiting value $\hat{E} \{ \theta|x = 4 \}$ =  0.8825833 \\
-        fiting value $\hat{E} \{ \theta|x = 5 \}$ =  1.0591000 \\
-        fiting value $\hat{E} \{ \theta|x = 6 \}$ =  1.2356167 \\
+        
+        \begin{table}[!hbt]
+            \centering
+            \begin{tabular}{|c|c|}
+            \hline
+            \textit{\textbf{$\hat E(\theta | x) $}} & {\textbf{Fitting value}} \\ \hline
+            $\hat E(\theta | x = 0) $               & 0.1765167                       \\ \hline
+            $\hat E(\theta | x = 1) $               & 0.3530333                       \\ \hline
+            $\hat E(\theta | x = 2) $               & 0.5295500                       \\ \hline
+            $\hat E(\theta | x = 3) $               & 0.7060667                       \\ \hline
+            $\hat E(\theta | x = 4) $               & 0.8825833                       \\ \hline
+            $\hat E(\theta | x = 5) $               & 1.0591000                       \\ \hline
+            $\hat E(\theta | x = 6) $               & 1.2356167                       \\ \hline
+            $\hat E(\theta | x = 7) $               & $\cdot$                         \\ \hline
+            \end{tabular}
+            \end{table}
+
 
         The R code related to the above is attached to the last page.
     \end{itemize}
