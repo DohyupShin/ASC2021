@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.9.9)  14 OCT 2021 21:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.9.9)  16 OCT 2021 20:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -541,47 +541,57 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 Package mdframed Info: Not enough space on this page on input line 118.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 127.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 151.
+(mdframed)              on input line 137.
  [1{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-]
+] [2]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 214.
+(mdframed)              on input line 162.
+Package mdframed Info: Not enough space on this page on input line 170.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 229.
+(mdframed)              on input line 227.
+Package mdframed Info: Not enough space on this page on input line 235.
+<./ASM_hw5_1.png, id=28, 702.625pt x 301.125pt>
+File: ./ASM_hw5_1.png Graphic file (type png)
+<use ./ASM_hw5_1.png>
+Package pdftex.def Info: ./ASM_hw5_1.png  used on input line 243.
+(pdftex.def)             Requested size: 289.07999pt x 123.89395pt.
+<./ASM_hw5_2.png, id=30, 702.625pt x 301.125pt>
+File: ./ASM_hw5_2.png Graphic file (type png)
+<use ./ASM_hw5_2.png>
+Package pdftex.def Info: ./ASM_hw5_2.png  used on input line 252.
+(pdftex.def)             Requested size: 289.07999pt x 123.89395pt.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 233.
-
-
-Package mdframed Warning: You got a bad break
-(mdframed)                because the last box will be empty
-(mdframed)                you have to change it manually
-(mdframed)                by changing the text, the space
-(mdframed)                or something else on input line 235.
-
-[2] [3] (/Users/user6/github/ASM2021/Hw5/ASM_hw5.aux)
+(mdframed)              on input line 261.
+ [4 </Users/user6/github/ASM2021/Hw5/./ASM_hw5_1.png> </Users/user6/github/ASM2021/Hw5/./ASM_hw5_2.png>]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 279.
+ [5] (/Users/user6/github/ASM2021/Hw5/ASM_hw5.aux)
 Package rerunfilecheck Info: File `ASM_hw5.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13007 strings out of 478994
- 192113 string characters out of 5858185
- 718963 words of memory out of 5000000
- 30284 multiletter control sequences out of 15000+600000
+ 13026 strings out of 478994
+ 192375 string characters out of 5858185
+ 717963 words of memory out of 5000000
+ 30296 multiletter control sequences out of 15000+600000
  406142 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,89p,1120b,481s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,13n,89p,1120b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on /Users/user6/github/ASM2021/Hw5/ASM_hw5.pdf (3 pages, 125050 bytes).
+Output written on /Users/user6/github/ASM2021/Hw5/ASM_hw5.pdf (5 pages, 186753 bytes).
 PDF statistics:
- 69 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
- 4 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 86 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
+ 8 named destinations out of 1000 (max. 500000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -119,8 +119,18 @@
     
     \noindent
     \begin{solution}
-    
-    
+    By Robbins' formula,  $\mathbb{E} ( \theta | x ) = \cfrac{\int_{0}^{1}\theta p_{\theta}(x) g(\theta) d\theta} {f_g(x)}$ where $f_g(x) = \int_{0}^{1}p_{\theta}(x)g(\theta)d\theta$. Then, 
+    \begin{align*}
+        \int_{0}^{1}\theta p_{\theta}(x) g(\theta) d\theta & = \int_{0}^{1} \binom{10}{x}\theta^{x+1}(1-\theta)^{10-x} g(\theta) d\theta\\
+        & = \binom{10}{x} \paren{\int_{0}^{1} ( \theta^{x+1}(1-\theta)^{9-x} - \theta^{x+2}(1-\theta)^{9-x} )g(\theta) d\theta}\\
+        & = \binom{10}{x} \paren{  f_g(x+1)/\binom{10}{x+1} -  \int_{0}^{1} \theta^{x+2}(1-\theta)^{9-x} g(\theta) d\theta  } \\
+        & = \frac{x+1}{10-x} f_g(x+1) - \binom{10}{x} \paren{\int_{0}^{1} ( \theta^{x+2}(1-\theta)^{8-x} - \theta^{x+3}(1-\theta)^{8-x} )g(\theta) d\theta} \\
+        & = \frac{x+1}{10-x} f_g(x+1) - \frac{(x+2)(x+1)}{(10-x)(9-x)}f_g(x+2) + \binom{10}{x} \int_{0}^{1} \theta^{x+3}(1-\theta)^{8-x} g(\theta) d\theta \\
+        & = \cdots  \text{ (Continue this process)} \\
+        & = \sum_{k = 1}^{10 - x} \cfrac{(x+k)(x+k-1)\cdots(x+1)}{(10-x)(9-x)\cdots(11-x-k)}(-1)^{k-1}f_g(x+k)\\
+        & = \sum_{k = 1}^{10 - x} \cfrac{(x+k)!(10-x-k)!}{(10-x)!x!}(-1)^{k-1}f_g(x+k)
+    \end{align*}
+    Therefore,  the Robbins' formula is equivalent to $$\mathbb{E} ( \theta | x ) = \cfrac{1}{f_g(x)} \sum_{k = 1}^{10 - x} \cfrac{(x+k)!(10-x-k)!}{(10-x)!x!}(-1)^{k-1}f_g(x+k)  $$
     \end{solution}
     
   
@@ -147,7 +157,8 @@
 
     \end{solution}
 
-  
+
+    \newpage
     \begin{problem}{6.3}
     Instead of (6.8), assume $g(\theta) = (1/ \sigma) e^{-\theta/ \sigma} \text{ for } \theta > 0.$
     \begin{itemize}
@@ -171,7 +182,7 @@
         By using R, we can calculate $\forall y_x$.
         
         In summary, \\
-        \begin{table}[hbt!]
+        \begin{table}[h]
             \centering
             \begin{tabular}{|c|c|}
             \hline
@@ -187,9 +198,10 @@
             \end{tabular}
         \end{table}
         
+
         \item [(b)] Since  $\hat{E} \{ \theta|x \} = (x+1) \cfrac{f_{\hat g} (x+1)}{f_{\hat g}(x)} = (x+1)\cfrac{\hat \sigma}{1 + \hat{\sigma}}$. So we can calculate the estimates of posterior mean for all $x = 0, 1, \dots, 6$
         
-        \begin{table}[!hbt]
+        \begin{table}[h]
             \centering
             \begin{tabular}{|c|c|}
             \hline
@@ -203,14 +215,15 @@
             $\hat E(\theta | x = 6) $               & 1.2356167                       \\ \hline
             $\hat E(\theta | x = 7) $               & $\cdot$                         \\ \hline
             \end{tabular}
-            \end{table}
-
+        \end{table}
 
         The R code related to the above is attached to the last page.
     \end{itemize}
+    
     \end{solution}
 
-
+    \newpage
+     
     \begin{problem}{6.7}
     The nodes data of Section 6.3 consists of 844 pairs $(n_i, x_i)$.
     \begin{itemize}
@@ -223,14 +236,52 @@
     
     \noindent
     \begin{solution}
-    
+
+        (a)
+        \begin{figure}[h]
+            \begin{center}
+            \includegraphics[width=4in]{./ASM_hw5_1.png}
+            \end{center}
+            \caption{}
+        \end{figure}
+        
+
+        (b)
+        \begin{figure}[h]
+            \begin{center}
+            \includegraphics[width=4in]{./ASM_hw5_2.png}
+            \end{center}
+            \caption{}
+        \end{figure}
+        
+        (c)
+        
     \end{solution}
 
     \begin{problem}{2}
         Show that the marginal distribution of "x"(in the missing species problem) is negative binomial.
     \end{problem}
+
+    \begin{solution}
+    In the book, the distribution of $x|\theta$ and $\theta$ are $x|\theta \sim Poisson(\theta)$ and $\theta \sim Gamma(\nu, \sigma)$. Then, the joint probability density function of $(x, \theta)$ is $f(x , \theta) = p_\theta(x)g(\theta)$ where $p_\theta(x)$ and $g(\theta)$ are pdf of $x|\theta$ and $\theta$.
+    Then, the marginal pdf of x is 
+    \begin{align*}
+    f(x) & = \int_{0}^{\infty} f(x , \theta)d \theta = \int_{0}^{\infty} \cfrac{\theta^x e^{-\theta}}{x!} \cfrac{1}{\Gamma(\nu)\sigma^\nu}\theta^{\nu - 1}e^{-\theta/\sigma} d\theta \\
+    & = \frac{\Gamma(x+\nu)\gamma^{x+\nu}}{x!}\int_{0}^{\infty}\cfrac{1}{\Gamma(x+\nu)\gamma^{x+\nu}}\theta^{x+\nu-1}e^{-\theta/\gamma} d\theta \quad (\text{where } \gamma = (1+\frac{1}{\sigma})^{-1}) \\
+    & = \frac{(\nu+x-1)(\nu+x-2)\cdots(\nu + 1)\nu}{x!}(\frac{1}{\sigma + 1})^{\nu} (\frac{\sigma}{1+\sigma})^x \\
+    & = \binom{x+\nu -1}{x}(\frac{1}{\sigma + 1})^{\nu} (\frac{\sigma}{1+\sigma})^x \quad \text{if $\nu$ is natural number}
+    \end{align*}
+    Therefore, if $\nu$ is natural number,  then the marginal pdf of x follows negative binomial distribution, denoted $Nebin(\nu, \frac{1}{1+ \sigma})$.
     
+    \end{solution}
+
+
     \begin{problem}{3}
-        Verify $E(t) = e_1\frac{1-(1- \gamma t)^{-\nu}}{\gamma \nu}$ where $\gamma = (1/\sigma + 1)^{-1}$. (See the lecture note Chapter 6-2, page 5, parametric approach)    
+        Verify $E(t) = e_1\frac{1-(1 + \gamma t)^{-\nu}}{\gamma \nu}$ where $\gamma = (1/\sigma + 1)^{-1}$. (See the lecture note Chapter 6-2, page 5, parametric approach)    
     \end{problem}
+    
+    \begin{solution}
+    In lecture note Chapter 6-2 page 5, we assume that the prior distribution of $\theta$ is $Gamma(\nu, \sigma)$.
+    
+    \end{solution}
 \end{document}
