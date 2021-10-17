@@ -163,10 +163,11 @@
     Instead of (6.8), assume $g(\theta) = (1/ \sigma) e^{-\theta/ \sigma} \text{ for } \theta > 0.$
     \begin{itemize}
         \item [(a)] Numerically find the maximum likelihood estimate $\hat{\sigma}$ for the Poisson model (6.1) fit to the count data in Table 6.1.
-        \item [(b)] Calculate te estimates of $\hat{E} \{ \theta|x \}$, as in the third row of Table 6.1.
+        \item [(b)] Calculate the estimates of $\hat{E} \{ \theta|x \}$, as in the third row of Table 6.1.
     \end{itemize}
 
-    $$g(\theta) = \frac{\theta^{\nu -1}e^{\theta/\sigma}}{\sigma^{\nu} \Gamma(\nu)}, \text{for } \theta \geq 0, \quad (6.8)$$
+    $$g(\theta) = \frac{\theta^{\nu -1}e^{\theta/\sigma}}{\sigma^{\nu} \Gamma(\nu)}, \text{for } \theta \geq 0
+    , \quad (6.8)$$
     \end{problem}
     
     \noindent
@@ -254,8 +255,6 @@
             \caption{}
         \end{figure}
         
-        (c)
-        
     \end{solution}
 
     \begin{problem}{2}
@@ -267,7 +266,7 @@
     Then, the marginal pdf of x is 
     \begin{align*}
     f(x) & = \int_{0}^{\infty} f(x , \theta)d \theta = \int_{0}^{\infty} \cfrac{\theta^x e^{-\theta}}{x!} \cfrac{1}{\Gamma(\nu)\sigma^\nu}\theta^{\nu - 1}e^{-\theta/\sigma} d\theta \\
-    & = \frac{\Gamma(x+\nu)\gamma^{x+\nu}}{x!}\int_{0}^{\infty}\cfrac{1}{\Gamma(x+\nu)\gamma^{x+\nu}}\theta^{x+\nu-1}e^{-\theta/\gamma} d\theta \quad (\text{where } \gamma = (1+\frac{1}{\sigma})^{-1}) \\
+    & = \frac{\Gamma(x+\nu)\gamma^{x+\nu}}{\Gamma(\nu)x!\sigma^{\nu}}\int_{0}^{\infty}\cfrac{1}{\Gamma(x+\nu)\gamma^{x+\nu}}\theta^{x+\nu-1}e^{-\theta/\gamma} d\theta \quad (\text{where } \gamma = (1+\frac{1}{\sigma})^{-1}) \\
     & = \frac{(\nu+x-1)(\nu+x-2)\cdots(\nu + 1)\nu}{x!}(\frac{1}{\sigma + 1})^{\nu} (\frac{\sigma}{1+\sigma})^x \\
     & = \binom{x+\nu -1}{x}(\frac{1}{\sigma + 1})^{\nu} (\frac{\sigma}{1+\sigma})^x \quad \text{if $\nu$ is natural number}
     \end{align*}
@@ -282,6 +281,28 @@
     
     \begin{solution}
     In lecture note Chapter 6-2 page 5, we assume that the prior distribution of $\theta$ is $Gamma(\nu, \sigma)$.
+    Let the pdf of $\theta$ be $g(\theta) = \frac{1}{\Gamma(\nu) \sigma^{\nu}} \theta^{\nu - 1} e^{-\frac{\theta}{\sigma}} $.
+    The moment generating function of $\theta$ is $M_{\theta}(t) = E(e^{t\theta}) = (1-\sigma t)^{-\nu} \quad \forall t < \frac{1}{\sigma}$.
+    To calculate $E(t)$, we use the mgf of $\theta$.
     
+    \begin{align*}
+     E(t) & = S\int_{0}^{\infty}e^{-\theta}(1 - e^{-\theta t}g(\theta)d\theta = S E(e^{-\theta}(1 - e^{-\theta t}))\\
+     & = S(E(e^{-\theta}) - E(e^{-\theta (1+t)})) = S( (1+\sigma )^{-\nu} -(1 + \sigma(1+t))^{-\nu}  )\\
+     & = S (1+\sigma)^{-\nu} (1 - (1 + \frac{\sigma}{1+\sigma }t)^{-\nu})\\
+     & = S (1+\sigma)^{-\nu} (1 - (1 +\gamma t)^{-\nu})\\
+    \end{align*}
+    
+    Next, we'll show that $e_1 = E(y_1) = S\gamma \nu(1+\sigma )^{-\nu}$. 
+    \begin{align*}
+         e_1 & = E(y_1)  = S\int_{0}^{\infty} \theta e^{-\theta}g(\theta)d\theta\\
+         & =  S \cfrac{\Gamma(\nu + 1) \gamma^{\nu +1} }{\Gamma(\nu) \sigma^{\nu}} \int_{0}^{\infty} \cfrac{1}{\Gamma(\nu + 1)\gamma^{\nu + 1}}\theta^{\nu}e^{-\frac{\theta}{\gamma}} d\theta \\
+         & =  S \cfrac{\nu \gamma^{\nu +1} }{\sigma^{\nu}} = S\nu \frac{{(\sigma/(1+\sigma))}^{\nu+1}}{\sigma^{\nu}} \\
+         & = S\nu \frac{\sigma}{(1+\sigma)^{\nu + 1}} = S\nu \frac{\sigma}{1+\sigma} \frac{1}{(1+\sigma)^{\nu}} \\
+         & = S\nu \gamma (1+\sigma)^{-\nu}
+    \end{align*}
+    
+    Therefore, 
+    $$E(t) = S(1+\sigma)^{-\nu}(1 - (1 + \gamma t)^{-\nu}) = e_1\frac{(1 - (1 + \gamma t)^{-\nu})} {\gamma \nu}$$
     \end{solution}
 \end{document}
+
