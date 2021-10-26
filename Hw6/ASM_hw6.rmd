@@ -108,9 +108,7 @@ kable(bball, caption = "baseball player 90 at-bats(normal method) ",
  
  
 ### Solution
-
-
-
+Actually, the james-stein estimator is shrinkage estimator. The shrinkage estimate does not work well when it is really good or bad. As the brother-in-law argues in the problem, the JS estimator of number 4 player is much lower than the actual value because other 17 players.
 
 
 ## Problem 2
