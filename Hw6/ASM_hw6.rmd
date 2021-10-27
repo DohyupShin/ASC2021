@@ -29,7 +29,7 @@ n <- nrow(bball)
 num <- 180
 true_p <- bball$TRUTH
 mle_p <- bball$MLE
-sig_p  <- mean(mle_p)/num
+sig_p  <- mean(mle_p)*(1 - mean(mle_p))/num
 s_mle <- sum((mle_p - mean(mle_p))^2)
 
 p_js <- mean(mle_p) + (1 - 15*sig_p/s_mle)*(mle_p - mean(mle_p))
@@ -87,7 +87,7 @@ n <- nrow(bball)
 num <- 90
 true_p <- bball$TRUTH
 mle_p <- bball$MLE
-sig_p  <- mean(mle_p)/num
+sig_p  <- mean(mle_p)*(1 - mean(mle_p))/num
 s_mle <- sum((mle_p - mean(mle_p))^2)
 
 p_js <- mean(mle_p) + (1 - 15*sig_p/s_mle)*(mle_p - mean(mle_p))
