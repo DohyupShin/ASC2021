@@ -118,7 +118,7 @@ Actually, the james-stein estimator is shrinkage estimator. The shrinkage estima
 ### Solution
 Let $\mu_i \overset{iid}{\sim} N(M, A)$ and $x_i|\mu_i \overset{iid}{\sim} N(\mu_i, 1)$.
 Assume that $M = 0$. This means $\mu_i \overset{iid}{\sim} N(0, A)$.
-Define $S = \sum_{i=1}^{N}x_i^2$ and $B = \frac{A}{A+1}$. Then, we know that $\mu_i|x_i \overset{iid}{\sim} N(Bx_i, B)$,  $x_i \overset{iid}{\sim} N(0, A + 1)$ and $\frac{S}{A+1} \sim \chi^2(N) = Gamma(\frac{N}{2}, 2)$. Then, $E(\frac{S}{A+1}) = N$ and $E(\frac{A+1}{S}) = \frac{1}{N-2} \quad \because \frac{A+1}{S} \sim InverseGamma(\frac{N}{2}, 2)$ .
+Define $S = \sum_{i=1}^{N}x_i^2$ and $B = \frac{A}{A+1}$. Then, we know that $\mu_i|x_i \overset{iid}{\sim} N(Bx_i, B)$,  $x_i \overset{iid}{\sim} N(0, A + 1)$ and $\frac{S}{A+1} \sim \chi^2(N) = Gamma(\frac{N}{2}, 2)$. Then, $E(\frac{S}{A+1}) = N$ and $E(\frac{A+1}{S}) = \frac{1}{N-2} \quad ( \because \frac{A+1}{S} \sim InverseGamma(\frac{N}{2}, 2) )$ .
 
 Also, we know that the bayes estimator of $\mu_i$ is $\hat \mu_i^{B} = E(\mu_i|x_i) = Bx_i$ and james-stein estimator of $\mu_i$ is $\hat \mu_i^{JS} = (1 - \frac{N-2}{S})x_i$ .
 
@@ -146,8 +146,8 @@ Then, we can simplify for MSE of $\hat \mu_i ^{JS}$ conditional X.
 \begin{align*}
   E( (\hat \mu_i ^{JS} - \mu_i)^2|X) & = E((\hat \mu_i ^{JS} - \hat \mu_i ^{B})^2 |X) + E((\hat \mu_i ^{B} - \mu_i)^2 |X) + 2E( (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) (\hat \mu_i ^{B} - \mu_i)|X) \\
   & = E((\hat \mu_i ^{JS} - \hat \mu_i ^{B})^2 |X) + E((\hat \mu_i ^{B} - \mu_i)^2 |X) \\
-  & = E((1 -\frac{N-2}{S} - B)^2x_i^2|X) + Var(\mu_i|X) \quad \because \hat \mu_i ^{B} = E(\mu_i|x_i) \\
-  & = (1 -\frac{N-2}{S} - B)^2x_i^2 + B \quad \because (1 -\frac{N-2}{S} - B)^2x_i^2 \text{ is function of X}
+  & = E((1 -\frac{N-2}{S} - B)^2x_i^2|X) + Var(\mu_i|X) \quad ( \because \hat \mu_i ^{B} = E(\mu_i|x_i) ) \\
+  & = (1 -\frac{N-2}{S} - B)^2x_i^2 + B \quad ( \because (1 -\frac{N-2}{S} - B)^2x_i^2 \text{ is function of X} )
 \end{align*}
 
 Therefore,
@@ -189,8 +189,8 @@ Define $C = E( \hat{\mu_i} ^{JS} - \hat{\mu_i} ^B) (\hat{\mu_i} ^B - \mu_i)|X)$ 
 
 \begin{align*}
     C & = E( (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) (\hat \mu_i ^{B} - \mu_i)|X) \\
-      & = (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) E((\hat \mu_i ^{B} - \mu_i)|X) \quad \because (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) \text{ is function of X} \\
-      & = (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) (\hat \mu_i ^{B} - E(\mu_i|X)) \quad \because \hat \mu_i ^{B} \text{ is function of X} \\
+      & = (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) E((\hat \mu_i ^{B} - \mu_i)|X) \quad ( \because (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) \text{ is function of X} ) \\
+      & = (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) (\hat \mu_i ^{B} - E(\mu_i|X)) \quad ( \because \hat \mu_i ^{B} \text{ is function of X} )\\
       & = (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) (\hat \mu_i ^{B} - \hat \mu_i ^{B}) = 0
 \end{align*}
 
@@ -199,9 +199,9 @@ Then, we can simplify for MSE of $\hat \mu_i ^{JS}$ conditional X.
 \begin{align*}
   E( (\hat \mu_i ^{JS} - \mu_i)^2|X) & = E((\hat \mu_i ^{JS} - \hat \mu_i ^{B})^2 |X) + E((\hat \mu_i ^{B} - \mu_i)^2 |X) + 2E( (\hat \mu_i ^{JS} - \hat \mu_i ^{B}) (\hat \mu_i ^{B} - \mu_i)|X) \\
   & = E((\hat \mu_i ^{JS} - \hat \mu_i ^{B})^2 |X) + E((\hat \mu_i ^{B} - \mu_i)^2 |X) \\
-  & = E( (\bar x +  \hat B (x_i - \bar x) - M - B(x_i - \bar X))^2 |X ) + Var(\mu_i|X) \quad \because \hat \mu_i ^{B} = E(\mu_i|x_i) \\
+  & = E( (\bar x +  \hat B (x_i - \bar x) - M - B(x_i - \bar X))^2 |X ) + Var(\mu_i|X) \quad ( \because \hat \mu_i ^{B} = E(\mu_i|x_i)  )\\
   & = E( ((1-B)(\bar x - M) + (\hat B - B)(x_i - \bar x))^2 |X) + B \\
-  & = ((1-B)(\bar x - M) + (\hat B - B)(x_i - \bar x))^2  + B \quad \because ((1-B)(\bar x - M) + (\hat B - B)(x_i - \bar x))^2 \text{ is function of X}
+  & = ((1-B)(\bar x - M) + (\hat B - B)(x_i - \bar x))^2  + B \quad ( \because ((1-B)(\bar x - M) + (\hat B - B)(x_i - \bar x))^2 \text{ is function of X} )
 \end{align*}
 
 Therefore,
@@ -209,15 +209,15 @@ Therefore,
   E(\left\lVert  \mathbf {\hat \mu}^{JS} - \mathbf{\mu} \right\rVert ^2) & =  E(E(\left\lVert  \mathbf {\hat \mu}^{JS} - \mathbf{\mu} \right\rVert ^2 | X)) \\
   & = E(\sum_{i=1}^{N} ((1-B)(\bar x - M) + (\hat B - B)(x_i - \bar x))^2 ) + NB \\
   & = E( N(1-B)^2(\bar x - M)^2 + (\hat B - B)^2 S+ 2(1-B)(\hat B - B)(\bar x - M)\sum_{i = 1}^{N}(x_i - \bar x) ) + NB \\
-  & = N(1-B)^2 Var(\bar x) + E((\hat B - B)^2 S)  + 0  + NB  \quad \because \sum_{i = 1}^{N}(x_i - \bar x) = 0 \\
-  & =  N\frac{1}{(1+A)^2}\frac{A+1}{N} + E( (1 - \frac{N-3}{S} - B)^2 S) + NB \because \bar x \sim N(M, \frac{A+1}{N}) \\
+  & = N(1-B)^2 Var(\bar x) + E((\hat B - B)^2 S)  + 0  + NB  \quad ( \because \sum_{i = 1}^{N}(x_i - \bar x) = 0 ) \\
+  & =  N\frac{1}{(1+A)^2}\frac{A+1}{N} + E( (1 - \frac{N-3}{S} - B)^2 S) + NB \quad ( \because \bar x \sim N(M, \frac{A+1}{N}) ) \\
   & =  \frac{1}{A+1} + E((1-B)^2 S) + E( (\frac{N-3}{S})^2 S) - 2E( (1-B)\frac{N-3}{S} S) + NB \\
-  & = \frac{1}{A+1} + \frac{N-1}{A+1} + \frac{N-3}{A+1} -2 \frac{N-3}{A+1} +NB \because E(\frac{S}{A+1}) = N-1 , \quad E(\frac{A+1}{S}) = \frac{1}{N-3}\\ 
+  & = \frac{1}{A+1} + \frac{N-1}{A+1} + \frac{N-3}{A+1} -2 \frac{N-3}{A+1} +NB \quad (\because E(\frac{S}{A+1}) = N-1 , \quad E(\frac{A+1}{S}) = \frac{1}{N-3} )\\ 
   & = \frac{1}{A+1} + \frac{N-1}{A+1} + \frac{N-3}{A+1} -2 \frac{N-3}{A+1} +NB \\
   & = \frac{3}{A+1} +NB
 \end{align*}
 
 The mle of $\mu_i$ is $\hat \mu_i ^{MLE} = x_i$, $E( (\hat \mu_i^{MLE} - \mu_i)^2) = 1$.
 $E(\left\lVert  \mathbf {\hat \mu}^{MLE} - \mathbf{\mu} \right\rVert ^2) = N$ .
-Thus, if $N \geq 3$,  $E(\left\lVert  \mathbf {\hat \mu}^{MLE} - \mathbf{\mu} \right\rVert ^2) \leq E(\left\lVert  \mathbf {\hat \mu}^{JS} - \mathbf{\mu} \right\rVert ^2)$.
-But, we cannot assure that for each $\hat \mu_i ^{JS}$ is better than $\hat \mu_i ^{MLE}$. This means that there might be for some i such that $E ( \hat \mu_i ^{MLE} - \mu_i)^2 \nleq E(\left\lVert  \mathbf {\hat \mu}^{JS} - \mathbf{\mu} \right\rVert ^2)$.
+Thus, if $N \geq 4$,  $E(\left\lVert  \mathbf {\hat \mu}^{JS} - \mathbf{\mu} \right\rVert ^2) < E(\left\lVert  \mathbf {\hat \mu}^{MLE} - \mathbf{\mu} \right\rVert ^2)$.
+But, we cannot assure that for each $\hat \mu_i ^{JS}$ is better than $\hat \mu_i ^{MLE}$. This means that there might be for some i such that $E ( \hat \mu_i ^{MLE} - \mu_i)^2 \leq E ( \hat \mu_i ^{JS} - \mu_i)^2$.
