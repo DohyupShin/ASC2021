@@ -1,7 +1,7 @@
 ---
 title: "Advanced Statistical Methods Hw6"
 author: "Do Hyup Shin"
-date: "10/24/2021"
+date: "10/27/2021"
 output: pdf_document
 ---
 
