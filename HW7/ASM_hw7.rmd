@@ -15,25 +15,66 @@ Redraw Figure 9.2, changing the “knot” location from 11 to 12.
 
 
 ### Solution
+First, we will check case Arm_A of the NCOG. In the book, n = number at risk(patients), y = number of deaths, l = lost to followup, h = hazard rate y/n; $\hat{S}$ = life table survival esimate.
+Next, we assume that $y_i \overset{indep}{\sim} B(n_i, h_i) \quad \forall i = 1, 2, \dots,47$. We will use a generalized linear model.
+Let $\mu_i = E(y_i) = n_ih_i \quad \forall i = 1, 2, \dots , 47$.
+The pdf of $y_i$ is 
 
+\begin{align*}
+  f(y_i) & = \binom{n_i}{y_i}h_i^{y_i}(1-h_i)^{n_i-y_i} = exp(y_i log\frac{h_i}{1-h_i} + n_i log(1 - h_i) + log\binom{n_i}{y_i})\\
+  & = exp(y_i log\frac{\mu_i}{n_i-\mu_i} + n_i log(\frac{n_i - \mu_i}{n_i}) + log\binom{n_i}{y_i}) \\
+  & =  exp(y_i\theta_i - n_i log(1 + e^{\theta_i}) + log\binom{n_i}{y_i}) \quad \text{ where } \theta_i = log\frac{\mu_i}{n_i - \mu_i}
+\end{align*}
+
+Define $b(\theta_i) = n_ilog(1+e^{\theta_i}), \quad a(\phi) = 1$, $\quad g(\mu_i) = \theta_i = log\frac{\mu_i}{n_i - \mu_i} =  \lambda_i = x_i^T\alpha$ where $x_i = (x_{i1}, x_{i2}, x_{i3}, x_{i4}) =(1, i, (i - 12)^2\_ ,(i-12)^3\_ )^T, \quad \alpha = (\alpha_1,\alpha_2,\alpha_3,\alpha_4)^T$ and we can express $\mu_i = n_i \cfrac{e^{\theta_i}}{1+e^{\theta_i}}$. By using this form, calculate log likelihood function $l(\alpha)$.
+
+\begin{align*}
+  l(\alpha) & = \sum_{i = 1}^{47}(y_i\theta_i - b(\theta_i) + log\binom{n_i}{y_i}) \\
+   & = \sum_{i=1}^{47}(y_i x_i^T \alpha - n_i log(1+e^{x_i^T \alpha}) + log\binom{n_i}{y_i})
+\end{align*}
+
+
+Let $S(\alpha)$ be score function. 
+\begin{align*}
+  S(\alpha_j) & = \frac{\partial S}{\partial \alpha_j} \\
+            & = \sum_{i=1}^{47} ( y_i x_{ij} - n_{i}\cfrac{e^{x_i ^T \alpha}}{1 + e^{x_i ^T \alpha}} x_{ij} ) \\
+            & = \sum_{i=1}^{47}(y_i - \mu_i)x_{ij} = 0 \quad \forall j = 1, 2, 3, 4
+\end{align*}
+
+We will find the mle of $\alpha_j$ satisfying $S(\alpha_j) = 0$.
+But, we cannot find the exact solution. So we will use the Iteratively Rewighted least square algorithm method.
+
+Let $g(y_i) \approx z_i = g(\mu_i) + g'(\mu_i)(y_i - \mu_i) = \lambda_i + \frac{d\lambda_i}{d\mu_i}(y_i - \mu_i)$ with $var(z_i) = \cfrac{var(y_i)}{(\frac{d\mu_i}{d\lambda_i})^2}$.
+Then, $g'(\mu_i) = \frac{n_i}{\mu_i(n_i - \mu_i)}$ and define
+$D = diag(\frac{\partial\mu_i}{\partial\lambda_i}) = diag(\frac{\mu_i(n_i - \mu_i)}{n_i})$ and $V = diag(var(y_i)) = diag(\mu_i(\frac{n_i - \mu_i}{n_i}))$.
+
+The IRLS algorithm works as follows.
+\begin{enumerate}
+  \item[Step1] Define the kth vector value $\alpha_{(k)}$.
+  \item[Step2] By using $\alpha_{(k)}$, Calculate $\lambda_{(k)}, \mu_{(k)}, z_{(k)},D_{(k)}, V_{(k)}$.
+  \item[Step3] Calculate $\alpha_{(k+1)} = (X^TW_{(k)}X)^{-1}X^TW_{(k)}z_{(k)}$.
+  \item[Step4] Continue above process until the $\alpha_{(k)}$ converges.
+  
+\end{enumerate}
+
+Actually, we can simplify $W = DV^{-1}D = diag(\frac{\mu_i(n_i - \mu_i)}{n_i}) diag(\frac{n_i}{\mu_i(n_i - \mu_i)})diag(\frac{\mu_i(n_i - \mu_i)}{n_i}) = diag(\frac{\mu_i(n_i - \mu_i)}{n_i}) = D$.
+So, we can find the numerical solution of the mle $\alpha$.
 
 ```{r}
 library(dplyr)
 library(ggplot2)
 NCOG_data <- read.csv("https://web.stanford.edu/~hastie/CASI_files/DATA/ncog.txt", sep = " ")
 
-
+#Separate A and B
 Arm_A <- subset(NCOG_data,subset = arm == "A")
 Arm_B <- subset(NCOG_data,subset = arm == "B")
 
-
 ## harzard function of Arm_A
 num_A = nrow(Arm_A)
-
 Km_A <- matrix(0, 47, 4)
-
 copy_A = Arm_A
 
+#make the 47 * 4 matrix
 for(i in 1:47){
   Km_A[i,1] = nrow(copy_A)
   inter_A = copy_A %>% filter(t > 30.4*(i-1) & t <= 30.4*i)
@@ -53,20 +94,23 @@ for(i in 1:47){
   }
 }
 
+#number of patients
 n_a = Km_A[,1]
-y_a = Km_A[,2]
 
+#number of deaths
+y_a = Km_A[,2]
 
 ## Iteratively Rewighted least square(IRLS)
 # initial value of alpha
 alpha_0 = c(-1, -0.01, 0.1, 0.01)
-
 alpha = matrix(0, 1001, 4)
 alpha[1,] = alpha_0
 
-
+#iterate 1000 times
 for(i in 1:1000){
+  
   lambda = x_a %*% alpha[i,]
+  
   # mu_k = n * exp(lambda_k)/ (1 + exp(lambda_k))
   mu = n_a * exp(lambda) / (1 + exp(lambda))
   
@@ -87,16 +131,24 @@ for(i in 1:1000){
   # alpha_(k+1) = (X^t W_k X)^(-1) X^t W_k Z_k
   alpha[i+1, ] = solve((t(x_a) %*% W %*% x_a)) %*% t(x_a) %*% W %*% z
 }
-alpha[1:5,]
+alpha_hat_a = alpha[1001,]
 
-alpha_hat = alpha[1001,]
+#The numerical solution of mle
+alpha_hat_a
+```
 
+
+Thus, the numerical mle of $\alpha$ in Arm_A case is $\hat{\alpha} = (-2.8303, -0.01587,  0.08267,  0.0085)^T$. Next, we'll draw the graph of harzard ratio.
+
+
+```{r}
+#harzard ratio
 harzard_func <- function(x){
-  h = 1/(1 + exp(-x%*%alpha_hat))
+  h = 1/(1 + exp(-x%*%alpha_hat_a))
   return(h)
 }
 
-
+#cubic linear spline function
 spline_func <- function(x){
   if(x<= 12){
     return(c(1, x, (x-12)^2,(x-12)^3))
@@ -106,31 +158,28 @@ spline_func <- function(x){
   }
 }
 
-
+#range of x
 range_xa = seq(0, 47, 0.01)
-
-
 h_a = rep(0, 4701)
-
 for(i in 1:4701){
   v = spline_func(range_xa[i])
   h_a[i] = harzard_func(v)
 }
 
 harzard_ratio_a = as.data.frame(cbind(range_xa, h_a)) 
+ggplot(data=harzard_ratio_a, aes(x=range_xa, y=h_a)) + geom_line(color='black', lwd=0.5) + ggtitle("harzard ratio of Arm_A") + 
+xlab("The number of months") + ylab("Monthly deaths") +theme_bw()
 
-#ggplot(data=harzard_ratio_a, aes(x=range_xa, y=h_a)) + geom_line(color='black', lwd=0.5)
+```
 
 
 
+In the same way as above, the case of Arm_B of the NCOG can also be obtained.
+```{r}
 ## harzard function of Arm_B
 num_B = nrow(Arm_B)
-
 Km_B <- matrix(0, 76, 4)
-
 copy_B = Arm_B
-
-
 for(i in 1:76){
   Km_B[i,1] = nrow(copy_B)
   inter_B = copy_B %>% filter(t > 30.4*(i-1) & t <= 30.4*i)
@@ -139,9 +188,6 @@ for(i in 1:76){
   Km_B[i, 4] <- Km_B[i, 2] / Km_B[i,1]
   copy_B = copy_B %>% filter(t > 30.4*i)
 }
-
-
-
 x_b <- matrix(0, 76, 4)
 for(i in 1:76){
   if(i <= 11){
@@ -151,19 +197,13 @@ for(i in 1:76){
     x_b[i,1:2] <- c(1, i)
   }
 }
-
 n_b = Km_B[,1]
 y_b = Km_B[,2]
-
-
 ## Iteratively Rewighted least square(IRLS)
-
 # initial value of alpha
 alpha_0 = c(1, 0.01, 0.01, 0.01)
 alpha = matrix(0, 1001, 4)
 alpha[1,] = alpha_0
-
-
 for(i in 1:1000){
   lambda = x_b %*% alpha[i,]
   
@@ -188,16 +228,18 @@ for(i in 1:1000){
   # alpha_(k+1) = (X^t W_k X)^(-1) X^t W_k Z_k
   alpha[i+1, ] = solve((t(x_b) %*% W %*% x_b)) %*% t(x_b) %*% W %*% z
 }
-
-
 alpha_hat_b = alpha[1001,]
 
+alpha_hat_b
+```
+
+Thus, the numerical mle of $\alpha$ in Arm_B case is $\hat{\alpha} = (-3.5586, -0.0219,  0.1262,  0.0132)^T$. Next, we'll draw the graph of harzard ratio.
+
+```{r}
 harzard_func <- function(x){
   h = 1/(1 + exp(-x%*%alpha_hat_b))
   return(h)
 }
-
-
 spline_func <- function(x){
   if(x<= 12){
     return(c(1, x, (x-12)^2,(x-12)^3))
@@ -206,33 +248,35 @@ spline_func <- function(x){
     return(c(1, x, 0, 0))
   }
 }
-
-
 range_xb = seq(0, 47, 0.01)
-
-
 h_b = rep(0, 4701)
-
 for(i in 1:4701){
   v = spline_func(range_xb[i])
   h_b[i] = harzard_func(v)
 }
-
-
-
 harzard_ratio_b = as.data.frame(cbind(range_xb, h_b)) 
+ggplot(data=harzard_ratio_b, aes(x=range_xb, y=h_b)) + 
+geom_line(color='red', lwd=0.5) +  ggtitle("harzard ratio of Arm_B") + xlab("The number of months") + 
+ylab("Monthly deaths") + theme_bw()
+```
 
-#ggplot(data=harzard_ratio_b, aes(x=range_xb, y=h_b)) + geom_line(color='red', lwd=0.5)
 
-ggplot() + geom_line(data = harzard_ratio_a, aes(x=range_xa, y=h_a), color = "black", lwd = 0.5) + labs(fill= "Arm_A") +
+
+So we can combine above two graphs.
+```{r}
+ggplot() + geom_line(data = harzard_ratio_a, aes(x=range_xa, y=h_a), color = "black", lwd = 0.5) +
   theme(legend.position = c(0.9,0.7)) +
   geom_line(data = harzard_ratio_b, aes(x = range_xb, y = h_b), color = 'red', lwd = 0.5) + 
+  ggtitle("harzard ratio of Arm_A and Arm_B") +
   xlab("The number of months") + ylab("Monthly deaths") + 
   theme_bw()
-
 ```
+
 
 ## Problem 9.5
 Why does the hypergeometric distribution enter into formula (9.24)?
 
 ### Solution
+In the book, the notations mean $n_A$ = the number of at risk in Arm_A, $n_d$ = the number of deaths,
+$n_B$ = the number of at risk in Arm_B, $n_s$ = the number of survived patients and y = the number of Arm_A deaths. 
+The data of 2 by 2 display of month-6 for NCOG study are observed after the patients died which means we know $n_d$. Also, we know the number of patient using the treatments Arm_A and Arm_B respectively which means we know $n_A$ and $n_B$. Therefore, the sum of each columns and rows 2 by 2 contingency table is fixed. So y determines the other three table entires by substraction, so we are not losing any information by focusing on y. This is why the distribution of y follows the hypergeometric distribution.
