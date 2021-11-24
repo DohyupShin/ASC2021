@@ -27,7 +27,7 @@ Therefore, the number of distinct bootstrap samples is  $\binom{2n-1}{n}$.
 A normal theory least squares model (7.28)-(7.30) yields $\hat\beta$ (7.32). Describe the parametric bootstrap estimates for the standard errors of the components of $\hat\beta$.
 
 ### Solution
-$Y = X\beta + \epsilon$ and $Y - X\beta = \epsilon \sim N_n(0, I_n \sigma^2)$. The mle of $\beta$ is $\hat\beta = (X^TX)^{-1}X^TY$ and $\hat\sigma^2 = MSE = \frac{1}{n-p-1}Y^T(I-H)Y$. Then, we plug in $\hat\beta$ and $\hat\sigma^2$ instead of $\beta$ and $\sigma^2$. Then we can use bootstrap sampling $y_i - x_i^t\hat\beta = \epsilon_i^* \overset{iid}{\sim} N(0, \hat\sigma^2) \; \forall i = 1, 2, \dots, n$. Then, we define the new regression model such that $y_i^* = x_i^t\hat\beta + \epsilon_i^*$. In this model, we can regress X on $Y^*$, so $\hat\beta^* = (X^TX)^{-1}X^TY^*$. 
+$Y = X\beta + \epsilon$ and $Y - X\beta = \epsilon \sim N_n(0, I_n \sigma^2)$. The mle of $\beta$ is $\hat\beta = (X^TX)^{-1}X^TY$ and $\hat\sigma^2 = MSE = \frac{1}{n-p-1}Y^T(I-H)Y$. Then, we plug in $\hat\beta$ and $\hat\sigma^2$ instead of $\beta$ and $\sigma^2$. Then we can use bootstrap sampling $y_i - x_i^t\hat\beta = \epsilon_i^* \overset{iid}{\sim} N(0, \hat\sigma^2) \; \forall i = 1, 2, \dots, n$. Then, we define the new regression model such that $y_i^* = x_i^t\hat\beta + \epsilon_i^*$. Let $Y^* = (y_1^*, y_2^*, \dots, y_n^*)^T$. In this model, we can regress X on $Y^*$, so $\hat\beta^* = (X^TX)^{-1}X^TY^*$. 
 
 By above process, Some large number B of bootstrap samples are independently drawn.
 The corresponding bootstrap replications are calculated, say $\hat\beta^{*b} = (X^TX)^{-1}X^TY^{b*}$.
@@ -35,6 +35,7 @@ Therefore, we can estimate the bootstrap standard error of $\beta_i$ such that
 $$\hat {se}_{boot}(\hat \beta_i)  = (\frac{1}{B-1} \sum_{j=1}^{B} (\hat{\beta_i}^{*j} - \hat{\beta_i}_{(\cdot)})^2)^{1/2}$$
 where $\hat{\beta_i}_{(\cdot)} = \frac{1}{B} \sum_{j=1}^{B} \hat\beta_i^{*j}$
 
+\newpage
 ## Problem 10.7
 Verify formula (10.70).
 
@@ -60,6 +61,7 @@ Therefore, $var_{\hat F} (\bar x^*) = \frac{1}{n^2} \sum_{j = 1}^{n} (x_j - \bar
 In conclusion, ${\hat {var}_{boot}(\bar x^*)} = \frac{1}{B - 1} \sum_{j = 1}^{B} (\bar x^{*j} - \bar x_{(\cdot)})^2 \rightarrow var_{\hat F} (\bar x^*) = \frac{1}{n^2} \sum_{j = 1}^{n} (x_j - \bar x)^2$ as $B \rightarrow \infty$.
 
 
+\newpage
 ## Problem 10.9
 A survey in a small town showed incomes $x_1, x_2, \dots, x_m$ for men and $y_1, y_2, \dots, y_n$ for women. As an estimate of the differences,
 $$\hat \theta  = median\{x_1, x_2, \dots , x_m\} - median\{y_1, y_2, \dots, y_n\}$$
@@ -114,7 +116,6 @@ So, $\frac{20}{\hat\lambda_{(lo)}} \hat\lambda = \chi^2_{0.025}(20) \rightarrow
 ```{r}
 #mle of lambda
 hat_lambda = 2
-
 #the value of lambda_lo
 hat_lam_lo = 20*hat_lambda/qchisq(0.025, 20, lower.tail = F)
 hat_lam_lo
@@ -144,28 +145,71 @@ Therefore, $\hat \lambda(0.025) = 1.170631$ and $\hat\lambda(0.975) = 4.170673$.
 
 The 95% confidence interval of Neyman constructions is (1.170631, 4.170673).
 
-
+\newpage
 ## Problem 11.3
 Suppose $\hat G$ in (11.33) was perfectly normal, say $\hat G \sim N(\hat \mu, {\hat\sigma}^2)$. What does $\hat \theta_{BC} (\alpha)$ reduce to in this case, and why does this make intuitive sense?
 
 ### Solution
 Suppose that $\hat G$ is cdf of $N(\hat\mu, \hat\sigma^2)$ with $z_0 = \Phi^{-1}(p_0)$ and $z^{(\alpha)} = \Phi^{-1}(\alpha)$ where $\Phi$ is cdf of standard normal distribution.
-In this case, $p_0 = \frac{\# \{ \hat\mu^{*b} \leq \hat\mu \}}{B} = 0.5$ because $\hat G$ is symmetric distribution. So $z_0 = \Phi^{-1}(p_0) = 0$.
+Also, $p_0 = \frac{\# \{ \hat\mu^{*b} \leq \hat\mu \}}{B}$ and $z_0 = \Phi^{-1}(p_0)$.
 Therefore,
-$$\hat\theta_{BC}[\alpha] = \hat G^{-1} [  \Phi(2z_0 + z^{(\alpha)})] = \hat G^{-1}[ \alpha]$$
-Since $\hat G(t) = \Phi(\cfrac{t - \hat \mu}{\hat\sigma})$, $\hat G(\hat\theta_{BC}[\alpha]) = \Phi(\frac{\hat\theta_{BC}[\alpha] - \hat\mu)}{\hat\sigma} ) = \alpha$.
+$$\hat\theta_{BC}[\alpha] = \hat G^{-1} [  \Phi(2z_0 + z^{(\alpha)})]$$
 
-By solving above equation, $\hat\theta_{BC}[\alpha] = \hat\mu + \hat\sigma\Phi^{-1}(\alpha) = \hat\mu + \hat\sigma z^{(\alpha)}$.
+Since $\hat G(t) = \Phi(\cfrac{t - \hat \mu}{\hat\sigma})$, $\hat G(\hat\theta_{BC}[\alpha]) = \Phi(\frac{\hat\theta_{BC}[\alpha] - \hat\mu)}{\hat\sigma}) =  \Phi(2z_0 + z^{(\alpha)})$.
 
-Thus, if $\hat G$ is normal, bias-corrected confidence interval is the same as standard interval.
+By solving above equation, $\hat\theta_{BC}[\alpha] = \hat\mu + \hat\sigma (2z_0 + z^{(\alpha)})$.
+If $B \rightarrow \infty$, then $p_0 \approx 0.5$ and $z_0 = \Phi^{-1}(p_0) \approx 0$.
+So, $\hat\theta_{BC}[\alpha] = \hat\mu + \hat\sigma (2z_0 + z^{(\alpha)}) \approx \hat\mu + \hat\sigma z^{(\alpha)}$.
+
+Thus, if $\hat G$ is normal, bias-corrected confidence interval is almost the same as standard interval.
 
 ## Problem 11.5
 Suppose $\hat \theta \sim Poisson(\theta)$ is obeserved to equal 16. Without employing simulation, compute the 95% central BCa interval for $\theta$. (You can use the good approximation $z_0 = a = 1/(6\hat\theta^{1/2})$.)
 
 ### Solution
+Let $\hat G(t) = \frac{\# \{ \hat\theta^{*b}\leq t\} }{B}$ and $p_0 = \hat G(\hat\theta)$ and $z_0 = \Phi^{-1}(p_0)  = a = 1/(6\hat\theta^{1/2}) = \frac{1}{24}$.
+We'll find  $\hat\theta_{BCa}[0.025]$ and $\hat\theta_{BCa}[0.975]$.
+We know that $z^{(0.025)} = -1.96$ and $z^{(0.975)} = 1.96$.
+First, the value of $\hat\theta_{BCa}[0.025]$ is
+$$\hat\theta_{BCa}[0.025] = \hat G^{-1} [  \Phi(z_0 +\frac{z_0+z^{(0.025)}}{1 - a(z_0+z^{(0.025)})})] = \hat G^{-1}[ \Phi(\frac{1}{24} + \frac{1/24 -1.96}{1 - 1/24(1/24 -1.96)})] = \hat G ^{-1}[\Phi(-1.735)] = \hat G^{-1}(0.041)$$
+Second, the value of $\hat\theta_{BCa}[0.975]$ is
+$$\hat\theta_{BCa}[0.975] = \hat G^{-1} [  \Phi(z_0 +\frac{z_0+z^{(0.975)}}{1 - a(z_0+z^{(0.975)})})] = \hat G^{-1}[ \Phi(\frac{1}{24} + \frac{1/24 +1.96}{1 - 1/24(1/24 +1.96)})] = \hat G ^{-1}[\Phi(2.225)] = \hat G^{-1}(0.987)$$
+Therefore,  the 95% BCa interval for $\theta$ is ($\hat G^{-1}(0.041),\; \hat G^{-1}(0.987)$).
 
+If $B \rightarrow \infty$, $\hat G(t) \overset{p}{\rightarrow} P(X \leq t)$ where $X \sim Poisson(16)$.
+Thus, we can find the $\hat G^{-1}(0.041)$ and $\hat G^{-1}(0.987)$ by using qpois.
+```{r}
+qpois(0.041, 16)
+qpois(0.987, 16)
+```
+
+Then, $\hat G^{-1}(0.041) = 9$ and $\hat G^{-1}(0.987) = 26$, the 95% BCa interval for $\theta$ is (9, 26).
 
 ## Problem 11.6
 Use the R program bcajack (available with its help file from efron.web.stanford.edu under "Talks") to find BCa confidence limits for the student score eigenratio statistic as in Figure 10.2.
 
 ### Solution
+By using "bcajack" function in "bcaboot" package, we can find the BCa confidence interval for the student score eigenratio.
+```{r}
+library(bcaboot)
+
+#Read the student score data 
+stu_score <- read.csv("https://web.stanford.edu/~hastie/CASI_files/DATA/student_score.txt", sep = " ")
+
+#original eigen ratio
+cor_mat_sco <- cor(stu_score)
+eigen_ratio = max(eigen(cor_mat_sco)$values) / sum(eigen(cor_mat_sco)$values)
+
+#eigen_ratio function
+eigen_ratio_func <- function(x){
+  cor_x = cor(x)
+  eigen_ratio_x = max(eigen(cor_x)$values) / sum(eigen(cor_x)$values)
+  return(eigen_ratio_x)
+}
+
+set.seed(1234)
+bca_inter = bcajack(x = stu_score, B = 2000, func = eigen_ratio_func , m = 10, verbose = FALSE)
+bca_inter
+```
+
+Therefore,  the 95% BCa confidence interval for eigenratio is (0.5275, 0.8203).
